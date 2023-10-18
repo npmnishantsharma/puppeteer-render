@@ -32,7 +32,7 @@ if (button) {
   await button.click();
 }
 
-const selector = `img[alt="${text}"]`;
+const selector = `img`;
 await page.waitForSelector(selector, {
   timeout: 12e4,
 });
