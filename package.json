@@ -2,7 +2,7 @@
   "name": "puppeteer-render",
   "version": "1.0.0",
   "description": "",
-  "main": "api.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index"
@@ -10,23 +10,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-    "dependencies": {
-    "puppeteer": "^19.7.2",
-    "puppeteer-extra": "^3.3.4",
-    "puppeteer-extra-plugin-stealth": "^2.11.0",
-    "express":"^4.18.2"
-  },
-  "devDependencies": {
-    "@antfu/eslint-config": "^0.25.1",
-    "@antfu/ni": "^0.16.2",
-    "bumpp": "^8.2.1",
-    "eslint": "^8.18.0",
-    "pnpm": "^7.3.0",
-    "tsup": "6.0.1",
-    "tsx": "^3.4.3",
-    "typescript": "^4.7.4"
-  },
-  "eslintConfig": {
-    "extends": "@antfu"
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "puppeteer": "^19.7.2"
   }
 }
