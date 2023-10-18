@@ -31,7 +31,7 @@ const button = await parent?.$('button');
 if (button) {
   await button.click();
 }
-
+page.waitForTimeout(65000);
 const selector = `img`;
 await page.waitForSelector(selector, {
   timeout: 12e4,
