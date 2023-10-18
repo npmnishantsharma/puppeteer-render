@@ -3,7 +3,7 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin());
 require("dotenv").config();
 
-const scrapeLogic = async (res) => {
+const scrapeLogic = async (res,text) => {
   const browser = await puppeteer.launch({
     headless:true,
     args: [
