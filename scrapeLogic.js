@@ -1,4 +1,6 @@
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-extra");
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+puppeteer.use(StealthPlugin());
 require("dotenv").config();
 
 const scrapeLogic = async (res) => {
@@ -15,38 +17,34 @@ const scrapeLogic = async (res) => {
         ? process.env.PUPPETEER_EXECUTABLE_PATH
         : puppeteer.executablePath(),
   });
-  try {
-    const page = await browser.newPage();
+const page = await browser.newPage();
+await page.goto('https://www.craiyon.com');
 
-    await page.goto("https://developer.chrome.com/");
+const input = await page.$('#prompt');
+if (input) {
+  await input.type(text);
+}
 
-    // Set screen size
-    await page.setViewport({ width: 1080, height: 1024 });
+const parent = await input?.getProperty('parentNode');
+const button = await parent?.$('button');
+if (button) {
+  await button.click();
+}
 
-    // Type into search box
-    await page.type(".search-box__input", "automate beyond recorder");
+const selector = `img[alt="${text}"]`;
+await page.waitForSelector(selector, {
+  timeout: 12e4,
+});
 
-    // Wait and click on first result
-    const searchResultSelector = ".search-box__link";
-    await page.waitForSelector(searchResultSelector);
-    await page.click(searchResultSelector);
+const imgs = await page.$$eval(selector, (imgs) => imgs.map((img) => img.getAttribute('src')));
 
-    // Locate the full title with a unique string
-    const textSelector = await page.waitForSelector(
-      "text/Customize and automate"
-    );
-    const fullTitle = await textSelector.evaluate((el) => el.textContent);
+await browser.close();
 
-    // Print the full title
-    const logStatement = `The title of this blog post is ${fullTitle}`;
-    console.log(logStatement);
-    res.send(logStatement);
-  } catch (e) {
-    console.error(e);
-    res.send(`Something went wrong while running Puppeteer: ${e}`);
-  } finally {
-    await browser.close();
-  }
-};
+if (imgs.length && imgs[0] !== null) {
+  return imgs;
+}
+
+throw new Error('Unable to generate');
+
 
 module.exports = { scrapeLogic };
