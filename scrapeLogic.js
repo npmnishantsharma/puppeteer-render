@@ -46,5 +46,5 @@ if (imgs.length && imgs[0] !== null) {
 
 throw new Error('Unable to generate');
 
-
+}
 module.exports = { scrapeLogic };
